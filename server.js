@@ -18,6 +18,7 @@
  */
 import express from 'express'
 import cors from 'cors'
+import WebSocket from 'ws'
 import {
   erpStateSyncPlugin,
   openaiProxiesPlugin,
@@ -29,6 +30,11 @@ import {
   erpOperationsPlugin,
   mediaUploadPlugin,
 } from './plugins.mjs'
+
+// Node <22 no expone WebSocket global; lo inyectamos para clientes realtime.
+if (!globalThis.WebSocket) {
+  globalThis.WebSocket = WebSocket
+}
 
 const PORT = Number(process.env.PORT || 8080)
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL || ''
