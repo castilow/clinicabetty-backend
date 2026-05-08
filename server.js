@@ -19,6 +19,7 @@
 import express from 'express'
 import cors from 'cors'
 import WebSocket from 'ws'
+import { createWhatsAppRouter } from './whatsapp-routes.mjs'
 import {
   erpStateSyncPlugin,
   openaiProxiesPlugin,
@@ -67,6 +68,7 @@ app.get('/', (_req, res) => {
       '/api/erp-state',
       '/api/openai/*',
       '/api/ocr',
+      '/api/whatsapp/*',
       '/api/deepface*',
       '/api/face-analysis/full',
       '/api/admin/*',
@@ -119,6 +121,10 @@ mountPlugin(mediaUploadPlugin(SUPABASE_URL, SUPABASE_SERVICE_ROLE))
 mountPlugin(adminCreateStaffPlugin(SUPABASE_URL, SUPABASE_SERVICE_ROLE))
 mountPlugin(adminCreateClinicPlugin(SUPABASE_URL, SUPABASE_SERVICE_ROLE))
 mountPlugin(bootstrapGerentePlugin(SUPABASE_URL, SUPABASE_SERVICE_ROLE, GERENTE_SIGNUP_SECRET))
+app.use('/api/whatsapp', createWhatsAppRouter({
+  supabaseUrl: SUPABASE_URL,
+  serviceRoleKey: SUPABASE_SERVICE_ROLE,
+}))
 
 // Fallback 404 para rutas desconocidas bajo /api/*
 app.use('/api', (_req, res) => {
