@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: clinica-erp-backend
+    env: docker
+    plan: starter
+    region: frankfurt
+    rootDir: backend-node
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ALLOWED_ORIGIN
+        value: "*"
+      # ── secrets: cargarlos desde el dashboard de Render ──
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GERENTE_SIGNUP_SECRET
+        sync: false
+      - key: DEEPFACE_REMOTE_URL
+        sync: false
+      - key: DEEPFACE_REMOTE_TOKEN
+        sync: false
