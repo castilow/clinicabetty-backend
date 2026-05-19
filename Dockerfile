@@ -7,7 +7,7 @@ COPY package.json ./
 RUN npm install --omit=dev --no-audit --no-fund
 
 # Código de la app.
-COPY server.js plugins.mjs ./
+COPY server.js plugins.mjs whatsapp-routes.mjs ./
 
 ENV NODE_ENV=production
 ENV PORT=8080
